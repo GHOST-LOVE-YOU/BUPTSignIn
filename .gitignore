@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+env/
+.python-version
+
+# IDE
+.idea/
+.vscode/
+
+# 其他
+.DS_Store (Mac)
+*.log

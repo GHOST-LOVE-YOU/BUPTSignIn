@@ -1,0 +1,27 @@
+<!-- templates/show_qr.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>动态二维码展示</title>
+</head>
+<body>
+    <h1>扫描下方二维码</h1>
+
+    <!-- 直接通过URL显示二维码 -->
+    <img src="{{ url_for('generate_qr', data=qr_data) }}" alt="动态二维码">
+
+    <!-- 或使用JavaScript动态加载 -->
+    <div id="qrContainer"></div>
+    <script>
+        function loadQR(data) {
+            const img = document.createElement('img');
+            img.src = `/generate_qr?data=${encodeURIComponent(data)}`;
+            document.getElementById('qrContainer').appendChild(img);
+        }
+
+        // 示例调用
+        const myData = "checkwork|id=...";  // 你的字符串
+        loadQR(myData);
+    </script>
+</body>
+</html>
