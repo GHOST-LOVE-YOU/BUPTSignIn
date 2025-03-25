@@ -1,11 +1,48 @@
-<div class="image-section">
-    <h3>原始上传图片：</h3>
-    <img src="data:image/png;base64,{{ original_image }}"
-         style="max-width: 400px;">
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新签到码</title>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .qr-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .text-info {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            word-break: break-all;
+        }
+        img.qr-image {
+            border: 1px solid #ddd;
+            padding: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="qr-section">
+            <h3>持久化的云平台签到二维码如下：</h3>
+            <!-- 直接嵌入base64编码的图片 -->
+            <img src="data:image/png;base64,{{ image_data }}"
+                 class="qr-image"
+                 alt="动态二维码"
+                 width="300">
+            <br>
+            <small>从企业微信“微教学”中“我的课程”对应课程处扫码即可完成远程签到</small>
+        </div>
 
-<div class="qr-section">
-    <h3>生成的新二维码：</h3>
-    <img src="data:image/png;base64,{{ qr_image }}"
-         style="max-width: 300px;">
-</div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{{ url_for('home') }}">返回上传页面</a>
+        </div>
+    </div>
+</body>
+</html>

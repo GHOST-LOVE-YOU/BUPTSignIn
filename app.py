@@ -7,10 +7,7 @@ import qrcode
 from io import BytesIO
 import base64
 
-app = Flask(__name__,
-            template_folder="../templates",
-            static_folder="../static"
-            )
+app = Flask(__name__)
 
 # 配置上传参数
 app.config['UPLOAD_FOLDER'] = 'static/uploads'  # 上传文件保存目录
