@@ -7,8 +7,14 @@ import qrcode
 from io import BytesIO
 import base64
 
-app = Flask(__name__)
+from PIL import Image
+import numpy
+import io
 
+app = Flask(__name__,
+    template_folder="../templates",
+    static_folder="../static"
+)
 # 配置上传参数
 app.config['UPLOAD_FOLDER'] = 'static/uploads'  # 上传文件保存目录
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}  # 允许的文件类型
@@ -72,8 +78,22 @@ def allowed_file(filename):
 # 在 upload_file 路由中修改保存后的处理逻辑
 def read_qr_code(filepath):
     """读取二维码内容"""
+    '''
     try:
         img = cv2.imread(filepath)
+        detect_obj = cv2.wechat_qrcode_WeChatQRCode()
+        res = detect_obj.detectAndDecode(img)
+        if res[0]:
+            return res[0]  # 返回第一个二维码内容
+        return None
+    except Exception as e:
+        print(f"二维码解析失败: {str(e)}")
+        return None
+    '''
+    try:
+        img_bytes = base64.b64decode(filepath)
+        image = Image.open(io.BytesIO(img_bytes))
+        img = cv2.cvtColor(numpy.asarray(image), cv2.COLOR_RGB2BGR)
         detect_obj = cv2.wechat_qrcode_WeChatQRCode()
         res = detect_obj.detectAndDecode(img)
         if res[0]:
@@ -101,14 +121,16 @@ def home():
 
         # 安全保存文件
         if file:
+            file_data = file.read()
+            '''
             filename = secure_filename(file.filename)
             save_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # 定义 save_path
             file.save(save_path)  # 保存文件到指定路径
-
+            '''
             # 读取二维码内容
-            qr_text = read_qr_code(save_path)
+            qr_text = read_qr_code(base64.b64encode(file_data).decode("utf-8"))
             if qr_text:
-                return redirect(url_for('show_image', filename=filename, qr_text=qr_text))
+                return redirect(url_for('show_image', filename='pic', qr_text=qr_text))
             else:
                 return "未检测到二维码或读取失败"
 
