@@ -14,7 +14,7 @@ RUN uv sync --frozen --no-dev
 # 拷贝源码
 COPY api ./api
 COPY templates ./templates
-COPY static ./static
+RUN mkdir -p static/uploads
 
 # 设置 Flask 环境变量
 ENV FLASK_APP=api/app.py \
