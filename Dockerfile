@@ -1,6 +1,12 @@
 # 使用官方 uv 镜像（已包含 Python 3.13 和 uv）
 FROM ghcr.io/astral-sh/uv:python3.13-bookworm-slim
 
+# 安装 OpenCV 所需的系统依赖
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgl1 \
+    libglib2.0-0 \
+ && rm -rf /var/lib/apt/lists/*
+
 # 设置工作目录
 WORKDIR /app
 
